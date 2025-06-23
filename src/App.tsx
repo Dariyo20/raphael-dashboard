@@ -31,6 +31,86 @@ import {
   X,
 } from "lucide-react";
 
+// Type definitions
+interface PersonalDetails {
+  name: string;
+  monthlyAllowance: number;
+  currentBalance: number;
+  allowanceDay: number;
+  location: string;
+  university: string;
+  course: string;
+  level: string;
+  gpaTarget: number;
+}
+
+interface Expense {
+  id: number;
+  item: string;
+  amount: number;
+  category: string;
+  date: string;
+}
+
+interface Budget {
+  dailySpend: number;
+  expenses: Expense[];
+}
+
+interface Goal {
+  id: number;
+  title: string;
+  progress: number;
+  deadline: string;
+  category: "academic" | "social" | "personal" | "fun";
+  streak: number;
+}
+
+interface NewsItem {
+  title: string;
+  publishedAt: string;
+}
+
+interface WeatherData {
+  temp: number;
+  condition: string;
+  humidity: number;
+}
+
+interface SpotifyData {
+  todaysSong: string;
+  popularity: number;
+  recentTracks: string[];
+}
+
+interface EntertainmentSources {
+  footballTeam: string;
+  musicArtist: string;
+  mobileGame: string;
+  favoriteFood: string;
+  transportMode: string;
+}
+
+interface ClassSchedule {
+  challengingClass: string;
+  classDay: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+}
+
+interface BudgetStatus {
+  status: string;
+  color: string;
+  message: string;
+}
+
+interface ClassEncounterInfo {
+  status: string;
+  message: string;
+  color: string;
+}
+
 const RaphaelDashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [moodToday, setMoodToday] = useState("");
@@ -41,11 +121,11 @@ const RaphaelDashboard = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   // Personal Details State
-  const [personalDetails, setPersonalDetails] = useState({
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     name: "Raphael",
     monthlyAllowance: 25000,
     currentBalance: 8500,
-    allowanceDay: 1, // Day of month when allowance comes
+    allowanceDay: 1,
     location: "Lagos, Nigeria",
     university: "UNILAG",
     course: "Sociology",
@@ -54,10 +134,10 @@ const RaphaelDashboard = () => {
   });
 
   const [editingDetails, setEditingDetails] = useState(false);
-  const [tempDetails, setTempDetails] = useState({ ...personalDetails });
+  const [tempDetails, setTempDetails] = useState<PersonalDetails>({ ...personalDetails });
 
   // Budget Manager State
-  const [budget, setBudget] = useState({
+  const [budget, setBudget] = useState<Budget>({
     dailySpend: 850,
     expenses: [
       {
@@ -85,7 +165,7 @@ const RaphaelDashboard = () => {
   });
 
   // Calculate days until next allowance
-  const getDaysUntilAllowance = () => {
+  const getDaysUntilAllowance = (): number => {
     const today = new Date();
     const currentDay = today.getDate();
     const currentMonth = today.getMonth();
@@ -98,7 +178,6 @@ const RaphaelDashboard = () => {
     );
 
     if (currentDay >= personalDetails.allowanceDay) {
-      // Next allowance is next month
       nextAllowanceDate = new Date(
         currentYear,
         currentMonth + 1,
@@ -106,12 +185,12 @@ const RaphaelDashboard = () => {
       );
     }
 
-   const timeDiff = nextAllowanceDate.getTime() - today.getTime();
+    const timeDiff = nextAllowanceDate.getTime() - today.getTime();
     return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   };
 
   // Goals State
-  const [goals, setGoals] = useState([
+  const [goals, setGoals] = useState<Goal[]>([
     {
       id: 1,
       title: `Maintain ${personalDetails.gpaTarget}+ GPA this semester`,
@@ -154,11 +233,11 @@ const RaphaelDashboard = () => {
   const [newGoal, setNewGoal] = useState({
     title: "",
     deadline: "",
-    category: "personal",
+    category: "personal" as Goal["category"],
   });
 
   // Sample data that would normally come from APIs
-  const [barcelonaNews] = useState([
+  const [barcelonaNews] = useState<NewsItem[]>([
     {
       title: "Pedri returns to training ahead of El Clasico",
       publishedAt: "Today",
@@ -170,13 +249,13 @@ const RaphaelDashboard = () => {
     { title: "Gavi nominated for Golden Boy award", publishedAt: "2 days ago" },
   ]);
 
-  const [weatherData] = useState({
+  const [weatherData] = useState<WeatherData>({
     temp: 28,
     condition: "Partly Cloudy",
     humidity: 75,
   });
 
-  const [spotifyData] = useState({
+  const [spotifyData] = useState<SpotifyData>({
     todaysSong: "Essence (feat. Tems)",
     popularity: 95,
     recentTracks: [
@@ -193,14 +272,14 @@ const RaphaelDashboard = () => {
   }, []);
 
   // Personal Details Functions
-const handleDetailsChange = (field: string, value: any) => {
-  setTempDetails((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-};
+  const handleDetailsChange = (field: keyof PersonalDetails, value: string | number): void => {
+    setTempDetails((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-  const savePersonalDetails = () => {
+  const savePersonalDetails = (): void => {
     setPersonalDetails({ ...tempDetails });
     setEditingDetails(false);
 
@@ -217,15 +296,15 @@ const handleDetailsChange = (field: string, value: any) => {
     );
   };
 
-  const cancelEdit = () => {
+  const cancelEdit = (): void => {
     setTempDetails({ ...personalDetails });
     setEditingDetails(false);
   };
 
   // Budget Functions
-  const addExpense = () => {
+  const addExpense = (): void => {
     if (newExpense.item && newExpense.amount) {
-      const expense = {
+      const expense: Expense = {
         id: Date.now(),
         item: newExpense.item,
         amount: parseInt(newExpense.amount),
@@ -247,7 +326,7 @@ const handleDetailsChange = (field: string, value: any) => {
     }
   };
 
-  const getBudgetStatus = () => {
+  const getBudgetStatus = (): BudgetStatus => {
     const dailyRecommended = personalDetails.monthlyAllowance / 30;
     if (budget.dailySpend > dailyRecommended * 1.5)
       return {
@@ -269,9 +348,9 @@ const handleDetailsChange = (field: string, value: any) => {
   };
 
   // Goal Functions
-  const addGoal = () => {
+  const addGoal = (): void => {
     if (newGoal.title && newGoal.deadline) {
-      const goal = {
+      const goal: Goal = {
         id: Date.now(),
         title: newGoal.title,
         progress: 0,
@@ -284,40 +363,37 @@ const handleDetailsChange = (field: string, value: any) => {
     }
   };
 
-const updateGoalProgress = (goalId: number, newProgress: number) => {
-  setGoals((prev) =>
-    prev.map((goal) =>
-      goal.id === goalId
-        ? { ...goal, progress: Math.min(newProgress, 100) }
-        : goal
-    )
-  );
-};
+  const updateGoalProgress = (goalId: number, newProgress: number): void => {
+    setGoals((prev) =>
+      prev.map((goal) =>
+        goal.id === goalId
+          ? { ...goal, progress: Math.min(newProgress, 100) }
+          : goal
+      )
+    );
+  };
 
-const getGoalCategoryIcon = (
-  category: "academic" | "social" | "personal" | "fun"
-) => {
-  switch (category) {
-    case "academic":
-      return <Book className="w-4 h-4" />;
-    case "social":
-      return <Heart className="w-4 h-4" />;
-    case "personal":
-      return <Target className="w-4 h-4" />;
-    case "fun":
-      return <Trophy className="w-4 h-4" />;
-    default:
-      return <Circle className="w-4 h-4" />;
-  }
-};
+  const getGoalCategoryIcon = (category: Goal["category"]): JSX.Element => {
+    switch (category) {
+      case "academic":
+        return <Book className="w-4 h-4" />;
+      case "social":
+        return <Heart className="w-4 h-4" />;
+      case "personal":
+        return <Target className="w-4 h-4" />;
+      case "fun":
+        return <Trophy className="w-4 h-4" />;
+      default:
+        return <Circle className="w-4 h-4" />;
+    }
+  };
 
-
- const deleteGoal = (goalId: number) => {
-  setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
-};
+  const deleteGoal = (goalId: number): void => {
+    setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
+  };
 
   // Entertainment/Sources Functions
-  const [entertainmentSources, setEntertainmentSources] = useState({
+  const [entertainmentSources, setEntertainmentSources] = useState<EntertainmentSources>({
     footballTeam: "Barcelona",
     musicArtist: "Wizkid",
     mobileGame: "FC Mobile",
@@ -326,39 +402,32 @@ const getGoalCategoryIcon = (
   });
 
   const [editingEntertainment, setEditingEntertainment] = useState(false);
-  const [tempEntertainment, setTempEntertainment] = useState({
+  const [tempEntertainment, setTempEntertainment] = useState<EntertainmentSources>({
     ...entertainmentSources,
   });
 
-  type EntertainmentField =
-  | "footballTeam"
-  | "musicArtist"
-  | "mobileGame"
-  | "favoriteFood"
-  | "transportMode";
+  const handleEntertainmentChange = (
+    field: keyof EntertainmentSources,
+    value: string
+  ): void => {
+    setTempEntertainment((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
- const handleEntertainmentChange = (
-  field: EntertainmentField,
-  value: string
-) => {
-  setTempEntertainment((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-};
-
-  const saveEntertainmentSources = () => {
+  const saveEntertainmentSources = (): void => {
     setEntertainmentSources({ ...tempEntertainment });
     setEditingEntertainment(false);
   };
 
-  const cancelEntertainmentEdit = () => {
+  const cancelEntertainmentEdit = (): void => {
     setTempEntertainment({ ...entertainmentSources });
     setEditingEntertainment(false);
   };
 
   // Class Schedule State and Functions
-  const [classSchedule, setClassSchedule] = useState({
+  const [classSchedule, setClassSchedule] = useState<ClassSchedule>({
     challengingClass: "Oyakhire",
     classDay: "Thursday",
     startTime: "12:00",
@@ -367,28 +436,27 @@ const getGoalCategoryIcon = (
   });
 
   const [editingSchedule, setEditingSchedule] = useState(false);
-  const [tempSchedule, setTempSchedule] = useState({ ...classSchedule });
+  const [tempSchedule, setTempSchedule] = useState<ClassSchedule>({ ...classSchedule });
 
-  const handleScheduleChange = (field: string, value: string) => {
-  setTempSchedule((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-};
+  const handleScheduleChange = (field: keyof ClassSchedule, value: string): void => {
+    setTempSchedule((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-
-  const saveClassSchedule = () => {
+  const saveClassSchedule = (): void => {
     setClassSchedule({ ...tempSchedule });
     setEditingSchedule(false);
   };
 
-  const cancelScheduleEdit = () => {
+  const cancelScheduleEdit = (): void => {
     setTempSchedule({ ...classSchedule });
     setEditingSchedule(false);
   };
 
   // Dynamic News/Content based on user preferences
-  const [customNews] = useState([
+  const [customNews] = useState<NewsItem[]>([
     {
       title: `${entertainmentSources.footballTeam} training update`,
       publishedAt: "Today",
@@ -403,7 +471,7 @@ const getGoalCategoryIcon = (
     },
   ]);
 
-  const [customMusic] = useState({
+  const [customMusic] = useState<SpotifyData>({
     todaysSong: `${entertainmentSources.musicArtist} - Latest Hit`,
     popularity: 95,
     recentTracks: [
@@ -415,7 +483,7 @@ const getGoalCategoryIcon = (
   });
 
   // Dynamic Challenge Class calculations
-  const getNextClassEncounter = () => {
+  const getNextClassEncounter = (): ClassEncounterInfo => {
     const now = new Date();
     const dayNames = [
       "Sunday",
@@ -470,9 +538,9 @@ const getGoalCategoryIcon = (
   };
 
   // Dynamic challenges based on user's game preference
-  const getDailyChallenges = () => {
+  const getDailyChallenges = (): string => {
     const day = currentTime.getDay();
-    const gameChallenge = {
+    const gameChallenge: { [key: number]: string } = {
       0: `Score 5 goals in ${entertainmentSources.mobileGame} - Sunday Funday!`,
       1: `Complete 3 matches in ${entertainmentSources.mobileGame} - Monday Motivation`,
       2: `Learn a new skill move in ${entertainmentSources.mobileGame}`,
@@ -485,7 +553,7 @@ const getGoalCategoryIcon = (
   };
 
   // Context-aware quotes
-  const getContextualQuote = () => {
+  const getContextualQuote = (): string => {
     const classInfo = getNextClassEncounter();
     if (stressLevel > 7) {
       return "Pressure makes diamonds. You've got this! 💎";
@@ -497,7 +565,7 @@ const getGoalCategoryIcon = (
   };
 
   // Dynamic music based on mood and artist preference
-  const getContextualSong = () => {
+  const getContextualSong = (): string => {
     const hour = currentTime.getHours();
     if (hour < 10) {
       return `${entertainmentSources.musicArtist} - Morning Motivation`;
@@ -509,7 +577,7 @@ const getGoalCategoryIcon = (
   };
 
   // Expense Functions
-  const deleteExpense = (expenseId) => {
+  const deleteExpense = (expenseId: number): void => {
     const expense = budget.expenses.find((exp) => exp.id === expenseId);
     if (expense) {
       setBudget((prev) => ({
@@ -525,7 +593,7 @@ const getGoalCategoryIcon = (
     }
   };
 
-  const getCategoryIcon = (category) => {
+  const getCategoryIcon = (category: string): JSX.Element => {
     switch (category) {
       case "food":
         return <Coffee className="w-4 h-4" />;
@@ -540,20 +608,19 @@ const getGoalCategoryIcon = (
     }
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = (): void => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
   };
 
-  const getGreeting = () => {
+  const getGreeting = (): string => {
     const hour = currentTime.getHours();
     if (hour < 12) return "Good morning";
     if (hour < 17) return "Good afternoon";
     return "Good evening";
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-red-900 p-4">
       <div className="max-w-7xl mx-auto">
