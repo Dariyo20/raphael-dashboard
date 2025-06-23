@@ -193,12 +193,12 @@ const RaphaelDashboard = () => {
   }, []);
 
   // Personal Details Functions
-  const handleDetailsChange = (field, value) => {
-    setTempDetails((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+const handleDetailsChange = (field: string, value: any) => {
+  setTempDetails((prev) => ({
+    ...prev,
+    [field]: value,
+  }));
+};
 
   const savePersonalDetails = () => {
     setPersonalDetails({ ...tempDetails });
