@@ -294,21 +294,23 @@ const updateGoalProgress = (goalId: number, newProgress: number) => {
   );
 };
 
+const getGoalCategoryIcon = (
+  category: "academic" | "social" | "personal" | "fun"
+) => {
+  switch (category) {
+    case "academic":
+      return <Book className="w-4 h-4" />;
+    case "social":
+      return <Heart className="w-4 h-4" />;
+    case "personal":
+      return <Target className="w-4 h-4" />;
+    case "fun":
+      return <Trophy className="w-4 h-4" />;
+    default:
+      return <Circle className="w-4 h-4" />;
+  }
+};
 
-  const getGoalCategoryIcon = (category) => {
-    switch (category) {
-      case "academic":
-        return <Book className="w-4 h-4" />;
-      case "social":
-        return <Heart className="w-4 h-4" />;
-      case "personal":
-        return <Target className="w-4 h-4" />;
-      case "fun":
-        return <Trophy className="w-4 h-4" />;
-      default:
-        return <Circle className="w-4 h-4" />;
-    }
-  };
 
   const deleteGoal = (goalId) => {
     setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
