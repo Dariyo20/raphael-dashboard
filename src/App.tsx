@@ -284,7 +284,7 @@ const handleDetailsChange = (field: string, value: any) => {
     }
   };
 
-const updateGoalProgress = (goalId: string, newProgress: number) => {
+const updateGoalProgress = (goalId: number, newProgress: number) => {
   setGoals((prev) =>
     prev.map((goal) =>
       goal.id === goalId
@@ -294,9 +294,6 @@ const updateGoalProgress = (goalId: string, newProgress: number) => {
   );
 };
 
-
-
-  // Continuing from your updateGoalProgress function...
 
   const getGoalCategoryIcon = (category) => {
     switch (category) {
