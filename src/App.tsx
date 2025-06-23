@@ -369,12 +369,13 @@ const getGoalCategoryIcon = (
   const [editingSchedule, setEditingSchedule] = useState(false);
   const [tempSchedule, setTempSchedule] = useState({ ...classSchedule });
 
-  const handleScheduleChange = (field, value) => {
-    setTempSchedule((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  const handleScheduleChange = (field: string, value: string) => {
+  setTempSchedule((prev) => ({
+    ...prev,
+    [field]: value,
+  }));
+};
+
 
   const saveClassSchedule = () => {
     setClassSchedule({ ...tempSchedule });
