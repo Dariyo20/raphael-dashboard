@@ -284,15 +284,17 @@ const handleDetailsChange = (field: string, value: any) => {
     }
   };
 
-  const updateGoalProgress = (goalId, newProgress) => {
-    setGoals((prev) =>
-      prev.map((goal) =>
-        goal.id === goalId
-          ? { ...goal, progress: Math.min(newProgress, 100) }
-          : goal
-      )
-    );
-  };
+const updateGoalProgress = (goalId: string, newProgress: number) => {
+  setGoals((prev) =>
+    prev.map((goal) =>
+      goal.id === goalId
+        ? { ...goal, progress: Math.min(newProgress, 100) }
+        : goal
+    )
+  );
+};
+
+
 
   // Continuing from your updateGoalProgress function...
 
