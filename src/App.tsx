@@ -1232,12 +1232,11 @@ const RaphaelDashboard = () => {
                     }
                     className="flex-1 px-4 py-2 bg-black/30 border border-white/20 rounded-lg text-white"
                   />
-                  <select
-                    value={newGoal.category}
-                  onChange={(e) => setNewGoal({ ...newGoal, category: e.target.value as Goal["category"] })}
-                    }
-                    className="px-4 py-2 bg-black/30 border border-white/20 rounded-lg text-white"
-                  >
+                 <select
+  value={newGoal.category}
+  onChange={(e) => setNewGoal({ ...newGoal, category: e.target.value as Goal["category"] })}
+  className="px-4 py-2 bg-black/30 border border-white/20 rounded-lg text-white"
+>
                     <option value="academic">Academic</option>
                     <option value="social">Social</option>
                     <option value="personal">Personal</option>
