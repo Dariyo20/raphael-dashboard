@@ -106,7 +106,7 @@ const RaphaelDashboard = () => {
       );
     }
 
-    const timeDiff = nextAllowanceDate - today;
+   const timeDiff = nextAllowanceDate.getTime() - today.getTime();
     return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
   };
 
