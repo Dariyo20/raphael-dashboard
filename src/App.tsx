@@ -312,9 +312,9 @@ const getGoalCategoryIcon = (
 };
 
 
-  const deleteGoal = (goalId) => {
-    setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
-  };
+ const deleteGoal = (goalId: number) => {
+  setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
+};
 
   // Entertainment/Sources Functions
   const [entertainmentSources, setEntertainmentSources] = useState({
