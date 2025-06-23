@@ -1234,8 +1234,7 @@ const RaphaelDashboard = () => {
                   />
                   <select
                     value={newGoal.category}
-                    onChange={(e) =>
-                      setNewGoal({ ...newGoal, category: e.target.value })
+                  onChange={(e) => setNewGoal({ ...newGoal, category: e.target.value as Goal["category"] })}
                     }
                     className="px-4 py-2 bg-black/30 border border-white/20 rounded-lg text-white"
                   >
