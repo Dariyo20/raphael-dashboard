@@ -330,12 +330,22 @@ const getGoalCategoryIcon = (
     ...entertainmentSources,
   });
 
-  const handleEntertainmentChange = (field, value) => {
-    setTempEntertainment((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+  type EntertainmentField =
+  | "footballTeam"
+  | "musicArtist"
+  | "mobileGame"
+  | "favoriteFood"
+  | "transportMode";
+
+ const handleEntertainmentChange = (
+  field: EntertainmentField,
+  value: string
+) => {
+  setTempEntertainment((prev) => ({
+    ...prev,
+    [field]: value,
+  }));
+};
 
   const saveEntertainmentSources = () => {
     setEntertainmentSources({ ...tempEntertainment });
